@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>Speech Emotion Recognition</h1>
+    <form id="upload-form" enctype="multipart/form-data">
+        <label for="audio">Upload an audio file:</label>
+        <input type="file" id="audio" name="audio" accept="audio/*" required>
+        <button type="submit">Predict Emotion</button>
+    </form>
+    <div id="loading" style="display: none;">Processing...</div>
+    <div id="result">Your emotion prediction will appear here.</div>
+</div>
+<script>
+    document.getElementById('upload-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const resultDiv = document.getElementById('result');
+        const loadingDiv = document.getElementById('loading');
+        const formData = new FormData();
+        const fileInput = document.getElementById('audio');
+        const file = fileInput.files[0];
+
+        if (!file) {
+            alert('Please select a file.');
+            return;
+        }
+        if (file.size > 5 * 1024 * 1024) {
+            alert('File size exceeds 5MB. Please upload a smaller file.');
+            return;
+        }
+
+        formData.append('audio', file);
+        resultDiv.innerHTML = '';
+        loadingDiv.style.display = 'block';
+
+        try {
+            const response = await fetch('/predict', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
+            if (response.ok) {
+                resultDiv.innerHTML = `<h2>Predicted Emotion: ${result.emotion}</h2> ${getEmotionEmoji(result.emotion)}`;
+                speakEmotion(result.emotion);
+            } else {
+                resultDiv.innerHTML = `<p>Error: ${result.error}</p>`;
+            }
+        } catch (error) {
+            resultDiv.innerHTML = `<p>An unexpected error occurred. Please try again.</p>`;
+            console.error('Error:', error);
+        } finally {
+            loadingDiv.style.display = 'none';
+        }
+    });
+
+    
+    function getEmotionEmoji(emotion) {
+        let emoji = '';
+        switch (emotion.toLowerCase()) {
+            case 'happy':
+                emoji = '😊';
+                break;
+            case 'sad':
+                emoji = '😞'; 
+                break;
+            case 'angry':
+                emoji = '😡'; 
+                break;
+            case 'fear':
+                emoji = '😨'; 
+                break;
+            case 'neutral':
+                emoji = '😐'; 
+                break;
+            case 'disgust':
+                emoji = '🤢'; 
+                break;
+            case 'surprise':
+                emoji = '😲'; 
+                break;
+            default:
+                emoji = ''; 
+        }
+        return `<span class="emoji">${emoji}</span>`; 
+    }
+
+    
+    function speakEmotion(emotion) {
+        let speechText = '';
+        let voicePitch = 1;
+        let voiceRate = 1;
+
+        
+        switch (emotion.toLowerCase()) {
+            case 'happy':
+                speechText = "You are happy now!";
+                voicePitch = 1; 
+                voiceRate = 1; 
+                break;
+            case 'sad':
+                speechText = "You are sad now.";
+                voicePitch = 1; 
+                voiceRate = 1; 
+                break;
+            case 'angry':
+                speechText = "You are angry now!";
+                voicePitch = 1; 
+                voiceRate = 1; 
+                break;
+            case 'fear':
+                speechText = "You are afraid now.";
+                voicePitch = 1; 
+                voiceRate = 1; 
+                break;
+            case 'neutral':
+                speechText = "You are neutral.";
+                voicePitch = 1; 
+                voiceRate = 1; 
+                break;
+            case 'disgust':
+                speechText = "You are disgusted now.";
+                voicePitch = 1; 
+                voiceRate = 1; 
+                break;
+            case 'surprise':
+                speechText = "You are surprised now!";
+                voicePitch = 1; 
+                voiceRate = 1; 
+                break;
+            default:
+                speechText = "Emotion not recognized.";
+        }
+
+        
+        const speech = new SpeechSynthesisUtterance(speechText);
+        speech.pitch = voicePitch;
+        speech.rate = voiceRate;
+        speech.lang = 'en-US'; 
+
+        
+        let voices = window.speechSynthesis.getVoices();
+        
+        
+        let randomVoice = voices[Math.floor(Math.random() * voices.length)];
+        speech.voice = randomVoice; 
+
+        
+        window.speechSynthesis.speak(speech);
+    }
+</script>
+{% endblock %}

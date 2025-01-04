@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="about-container">
+    <h1>About Speech Emotion Recognition</h1>
+    <p>
+        <strong>What is Speech Emotion Recognition (SER)?</strong><br>
+        Speech Emotion Recognition (SER) is an advanced field of artificial intelligence and deep learning that focuses on analyzing human emotions through vocal patterns. By examining aspects such as tone, pitch, energy, and other acoustic features in audio recordings, SER systems can identify the speaker's emotional state, such as happiness, sadness, anger, fear, and more. SER bridges the gap between human communication and machine understanding, enabling systems to not only hear what is said but also comprehend how it is said.
+    </p>
+    
+    <p>
+        <strong>What Does Our SER Model Do?</strong><br>
+        Our Speech Emotion Recognition system processes short audio clips, extracts key acoustic features, and predicts the emotion conveyed in the speech. The main steps involved include feature extraction, where important audio features like Zero Crossing Rate (ZCR), Mel-Frequency Cepstral Coefficients (MFCCs), and Root Mean Square Energy (RMSE) are analyzed. Using a deep learning model, specifically a Convolutional Neural Network (CNN), the extracted features are classified into different emotion categories such as Happy, Sad, Angry, Neutral, and Fearful.
+    </p>
+    
+    <p>
+        <strong>Real-World Applications of SER</strong><br>
+        Speech Emotion Recognition has numerous real-world applications. It can enhance customer service by detecting frustration or satisfaction in real-time interactions. In healthcare, it supports mental health diagnostics by identifying emotional distress in vocal tones. Law enforcement and security applications include detecting stress or deception in conversations. SER also improves virtual education by providing feedback on student engagement and enables more empathetic AI assistants in human-machine interactions.
+    </p>
+    
+    <p>
+        <strong>Characteristics of Our Model</strong><br>
+        Our SER system features robust and scalable architecture, designed for high accuracy and adaptability. It preprocesses audio with a sampling rate of 22,050 Hz and uses a rich feature set, including ZCR, RMSE, and MFCCs, to represent emotions effectively. Built with a Convolutional Neural Network (CNN), it is optimized for audio feature learning. The model was trained using datasets such as RAVDESS (Ryerson Audio-Visual Database of Emotional Speech and Song) and potentially others like TESS or CREMA-D, ensuring diverse and professional-grade training data. It can also adapt to more complex emotions or regional accents by retraining with additional datasets.
+    </p>
+    
+    <p>
+        <strong>Testing and Use Cases</strong><br>
+        Our model can be tested with audio samples (.wav or .mp3), controlled datasets like RAVDESS or TESS, or real-world conversations from customer service calls or educational content. These use cases demonstrate its practical utility and performance. By enabling emotion recognition, this model creates opportunities for enhanced customer engagement, better mental health monitoring, improved security, and more interactive AI systems.
+    </p>
+    
+</div>
+{% endblock %} 
